@@ -1,0 +1,128 @@
+[
+    {
+      "productId": 13,
+      "manufacturer": "Manglo",
+      "sku": "62c2274bab5a295bfbb0f0c1",
+      "upc": "62c2274b4d91676ac648d27b",
+      "pricePerUnit": "1.25",
+      "quantityOnHand": 47,
+      "productName": "Kim"
+    },
+    {
+      "productId": 81,
+      "manufacturer": "Cogentry",
+      "sku": "62c2274b0ca8c406bc990cda",
+      "upc": "62c2274b4337804b964a3da0",
+      "pricePerUnit": "168.83",
+      "quantityOnHand": 72,
+      "productName": "Terry"
+    },
+    {
+      "productId": 76,
+      "manufacturer": "Comvey",
+      "sku": "62c2274bd9b20a3eb59bac5c",
+      "upc": "62c2274b9607487d34db9165",
+      "pricePerUnit": "81.55",
+      "quantityOnHand": 4,
+      "productName": "Pam"
+    },
+    {
+      "productId": 92,
+      "manufacturer": "Stucco",
+      "sku": "62c2274befe3aa399234c1f4",
+      "upc": "62c2274bf511e7eb10bc7bb6",
+      "pricePerUnit": "62.36",
+      "quantityOnHand": 56,
+      "productName": "Sonia"
+    },
+    {
+      "productId": 100,
+      "manufacturer": "Dreamia",
+      "sku": "62c2274b1961f7d2ca9ff3b8",
+      "upc": "62c2274b842c8a1ab1c27295",
+      "pricePerUnit": "86.56",
+      "quantityOnHand": 93,
+      "productName": "Lenora"
+    },
+    {
+      "productId": 59,
+      "manufacturer": "Architax",
+      "sku": "62c2274b2189303cce080ab1",
+      "upc": "62c2274bb3e5923135597e7b",
+      "pricePerUnit": "170.24",
+      "quantityOnHand": 92,
+      "productName": "Eileen"
+    },
+    {
+      "productId": 54,
+      "manufacturer": "Zilodyne",
+      "sku": "62c2274bfd8753864dcf875c",
+      "upc": "62c2274bade77939faf9f856",
+      "pricePerUnit": "122.52",
+      "quantityOnHand": 53,
+      "productName": "Wendi"
+    },
+    {
+      "productId": 77,
+      "manufacturer": "Turnling",
+      "sku": "62c2274b2c02b6fe20dd8227",
+      "upc": "62c2274b630eaa17d32f2167",
+      "pricePerUnit": "19.12",
+      "quantityOnHand": 84,
+      "productName": "Young"
+    },
+    {
+      "productId": 100,
+      "manufacturer": "Thredz",
+      "sku": "62c2274b855df740298e6975",
+      "upc": "62c2274b4ca1d9e673af014a",
+      "pricePerUnit": "5.94",
+      "quantityOnHand": 21,
+      "productName": "Nona"
+    },
+    {
+      "productId": 31,
+      "manufacturer": "Netropic",
+      "sku": "62c2274b9611344b710d77c9",
+      "upc": "62c2274b0f106ccae1c0f74c",
+      "pricePerUnit": "146.09",
+      "quantityOnHand": 100,
+      "productName": "Claire"
+    },
+    {
+      "productId": 48,
+      "manufacturer": "Geekol",
+      "sku": "62c2274b16f4277fdf6aee43",
+      "upc": "62c2274b3297ad8b3d58ebb5",
+      "pricePerUnit": "109.69",
+      "quantityOnHand": 84,
+      "productName": "Luisa"
+    },
+    {
+      "productId": 62,
+      "manufacturer": "Anivet",
+      "sku": "62c2274b6e7493ffd0db03ea",
+      "upc": "62c2274bf971b3ae1cb47bb1",
+      "pricePerUnit": "76.54",
+      "quantityOnHand": 98,
+      "productName": "Angelina"
+    },
+    {
+      "productId": 44,
+      "manufacturer": "Virxo",
+      "sku": "62c2274b120f347761a90430",
+      "upc": "62c2274bf08606f12c1ccdc7",
+      "pricePerUnit": "132.32",
+      "quantityOnHand": 26,
+      "productName": "Renee"
+    },
+    {
+      "productId": 28,
+      "manufacturer": "Vicon",
+      "sku": "62c2274bf49eaf7de855105f",
+      "upc": "62c2274bae4af8fad1f0fde4",
+      "pricePerUnit": "103.48",
+      "quantityOnHand": 32,
+      "productName": "Blanche"
+    }
+  ]
