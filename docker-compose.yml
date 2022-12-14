@@ -13,3 +13,10 @@ services:
     ports:
       - 3306:3306
     restart: always
+
+  inventory-service:
+    build: .
+    links:
+      - "db:database"
+    ports: 
+      - 8080:8080

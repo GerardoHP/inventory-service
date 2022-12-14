@@ -24,3 +24,5 @@ service-account-file.json
 uploads
 .data/*
 *config.json
+.DS_Store
+
