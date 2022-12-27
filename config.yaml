@@ -1,0 +1,8 @@
+user: root
+pass: root
+host: 127.0.0.1
+port: 3306
+dbName: inventorydb
+maxOpenConnections: 4
+maxIdleConnections: 4
+maxLifetime: 60

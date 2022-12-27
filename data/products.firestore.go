@@ -47,7 +47,7 @@ func (r FirestoreRepository) GetProducts() ([]models.Product, error) {
 	return prods, nil
 }
 
-func (r FirestoreRepository) AddProduct(p models.Product) {
+func (r FirestoreRepository) AddProduct(p models.Product) error {
 	m := p.ToMap()
 	_, _, err := collection.Add(context.Background(), m)
 	if err != nil {
@@ -57,9 +57,11 @@ func (r FirestoreRepository) AddProduct(p models.Product) {
 		defer products.Unlock()
 		products.m[p.ProductID] = p
 	}
+
+	return nil
 }
 
-func (r FirestoreRepository) GetNextID() (id int) {
+func (r FirestoreRepository) GetNextID() (id int, err error) {
 	products.Lock()
 	defer products.Unlock()
 	productIds := []int{}
@@ -96,7 +98,7 @@ func (r FirestoreRepository) UpdateProduct(p models.Product) error {
 	return nil
 }
 
-func (r FirestoreRepository) DeleteProduct(id int) {
+func (r FirestoreRepository) DeleteProduct(id int) error {
 	products.Lock()
 	delete(products.m, id)
 	products.Unlock()
@@ -105,6 +107,8 @@ func (r FirestoreRepository) DeleteProduct(id int) {
 	if err != nil {
 		log.Printf("an error has ocurred: %s \n", err)
 	}
+
+	return nil
 }
 
 func init() {

@@ -1,5 +1,7 @@
 package models
 
+import "fmt"
+
 type Product struct {
 	ProductID      int    `json:"productId"`
 	Manufacturer   string `json:"manufacturer"`
@@ -21,6 +23,11 @@ func (p Product) ToMap() (obj map[string]interface{}) {
 	obj["productName"] = p.ProductName
 
 	return
+}
+
+func (p Product) GetProductInsertQuery() string {
+	return fmt.Sprintf(`INSERT INTO products (manufacturer, sku, upc, pricePerUnit, quantityOnHand, productName) VALUES ("%v", "%v", "%v", %v, %v, "%v");`,
+		p.Manufacturer, p.Sku, p.Upc, p.PricePerUnit, p.QuantityOnHand, p.ProductName)
 }
 
 func ProductFromMap(obj map[string]interface{}) *Product {

@@ -54,7 +54,8 @@ func (p *Products) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		product.ProductID = repository.GetNextID()
+		p, _ := repository.GetNextID()
+		product.ProductID = p + 1
 		repository.AddProduct(product)
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusCreated)

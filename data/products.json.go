@@ -40,13 +40,15 @@ func (r JsonRepository) GetProducts() ([]models.Product, error) {
 	return products, nil
 }
 
-func (r JsonRepository) AddProduct(p models.Product) {
+func (r JsonRepository) AddProduct(p models.Product) error {
 	productMap.Lock()
 	defer productMap.Unlock()
 	productMap.m[p.ProductID] = p
+
+	return nil
 }
 
-func (r JsonRepository) GetNextID() (id int) {
+func (r JsonRepository) GetNextID() (id int, err error) {
 	productMap.Lock()
 	defer productMap.Unlock()
 	productIds := []int{}
@@ -76,10 +78,12 @@ func (r JsonRepository) UpdateProduct(p models.Product) error {
 	return nil
 }
 
-func (r JsonRepository) DeleteProduct(id int) {
+func (r JsonRepository) DeleteProduct(id int) error {
 	productMap.Lock()
 	defer productMap.Unlock()
 	delete(productMap.m, id)
+
+	return nil
 }
 
 func init() {

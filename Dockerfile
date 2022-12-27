@@ -11,6 +11,7 @@ RUN go mod download
 
 COPY . .
 COPY config.docker.json config.json 
+COPY config.docker.yaml config.yaml 
 
 RUN go build -o ./out/inventory-service .
 
