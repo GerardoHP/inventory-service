@@ -1,7 +1,0 @@
-{
-    "user": "root",
-    "pass": "root",
-    "host": "db",
-    "port": "3306", 
-    "dbName": "inventorydb"
-}
