@@ -29,11 +29,6 @@ func NewConfigFromFile() *Config {
 	}
 
 	defer configFile.Close()
-	// jsonParser := json.NewDecoder(configFile)
-	// if err = jsonParser.Decode(&r); err != nil {
-	// 	fmt.Printf("parsing config file %v \n", err.Error())
-	// }
-
 	yamlParser := yaml.NewDecoder(configFile)
 	if err = yamlParser.Decode(&r); err != nil {
 		fmt.Printf("parsing config file %v \n", err.Error())
