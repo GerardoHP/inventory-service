@@ -23,6 +23,6 @@ go.work
 service-account-file.json
 uploads
 .data/*
-*config.json
+*config.*
 .DS_Store
 
