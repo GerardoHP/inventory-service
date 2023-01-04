@@ -111,6 +111,10 @@ func (r FirestoreRepository) DeleteProduct(id int) error {
 	return nil
 }
 
+func (FirestoreRepository) GetTopTenProducts() ([]models.Product, error) {
+	return nil, nil
+}
+
 func init() {
 	opt := option.WithCredentialsFile(credentialsFile)
 	ctx := context.Background()

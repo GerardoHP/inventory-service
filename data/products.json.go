@@ -86,6 +86,10 @@ func (r JsonRepository) DeleteProduct(id int) error {
 	return nil
 }
 
+func (JsonRepository) GetTopTenProducts() ([]models.Product, error) {
+	return nil, nil
+}
+
 func init() {
 	fmt.Println("loading products...")
 	prodMap, err := loadProductMap()

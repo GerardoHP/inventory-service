@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"errors"
 	"io"
 	"log"
 	"net/http"
@@ -45,7 +46,15 @@ func (receipt *Receipts) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 
 		defer file.Close()
-		f, err := os.OpenFile(filepath.Join(data.ReceiptDirectory, handler.Filename), os.O_WRONLY|os.O_CREATE, 0666)
+		if _, err := os.Stat(data.ReceiptDirectory); errors.Is(err, os.ErrNotExist) {
+			err := os.Mkdir(data.ReceiptDirectory, os.ModePerm)
+			if err != nil {
+				w.WriteHeader(http.StatusBadRequest)
+				return
+			}
+		}
+
+		f, _ := os.OpenFile(filepath.Join(data.ReceiptDirectory, handler.Filename), os.O_WRONLY|os.O_CREATE, 0666)
 		defer f.Close()
 		io.Copy(f, file)
 		w.WriteHeader(http.StatusCreated)

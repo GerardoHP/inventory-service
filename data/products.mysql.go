@@ -1,6 +1,7 @@
 package data
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"log"
@@ -8,6 +9,8 @@ import (
 
 	"github.com/GerardoHP/inventory-service/models"
 )
+
+var config *Config
 
 type SqlRepository struct {
 }
@@ -20,7 +23,9 @@ func NewSqlRepository() *SqlRepository {
 }
 
 func (SqlRepository) GetProducts() ([]models.Product, error) {
-	results, err := DbConn.Query(`SELECT productId,
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(config.QueryTimeout))
+	defer cancel()
+	results, err := DbConn.QueryContext(ctx, `SELECT productId,
 	manufacturer,
 	sku,
 	upc,
@@ -54,8 +59,11 @@ func (SqlRepository) GetProducts() ([]models.Product, error) {
 }
 
 func (SqlRepository) AddProduct(p models.Product) error {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(config.QueryTimeout))
+	defer cancel()
+
 	query := p.GetProductInsertQuery()
-	_, err := DbConn.Exec(query)
+	_, err := DbConn.ExecContext(ctx, query)
 	if err != nil {
 		return err
 	}
@@ -64,7 +72,10 @@ func (SqlRepository) AddProduct(p models.Product) error {
 }
 
 func (SqlRepository) GetNextID() (int, error) {
-	row := DbConn.QueryRow(`SELECT productID FROM products ORDER BY productID DESC LIMIT 1;`)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(config.QueryTimeout))
+	defer cancel()
+
+	row := DbConn.QueryRowContext(ctx, `SELECT productID FROM products ORDER BY productID DESC LIMIT 1;`)
 	product := &models.Product{}
 	err := row.Scan(&product.ProductID)
 	if err == sql.ErrNoRows {
@@ -79,7 +90,10 @@ func (SqlRepository) GetNextID() (int, error) {
 }
 
 func (SqlRepository) GetProductById(id int) (*models.Product, error) {
-	row := DbConn.QueryRow(`SELECT 
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(config.QueryTimeout))
+	defer cancel()
+
+	row := DbConn.QueryRowContext(ctx, `SELECT 
 	productId,
 	manufacturer,
 	sku,
@@ -112,7 +126,10 @@ func (SqlRepository) GetProductById(id int) (*models.Product, error) {
 }
 
 func (SqlRepository) UpdateProduct(p models.Product) error {
-	_, err := DbConn.Exec(`UPDATE products SET
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(config.QueryTimeout))
+	defer cancel()
+
+	_, err := DbConn.ExecContext(ctx, `UPDATE products SET
 	manufacturer=?,
 	sku=?,
 	upc=?,
@@ -133,7 +150,10 @@ func (SqlRepository) UpdateProduct(p models.Product) error {
 }
 
 func (SqlRepository) DeleteProduct(id int) error {
-	_, err := DbConn.Exec(`UPDATE products SET deleted=1 WHERE productId = ?`, id)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(config.QueryTimeout))
+	defer cancel()
+
+	_, err := DbConn.ExecContext(ctx, `UPDATE products SET deleted=1 WHERE productId = ?`, id)
 	if err != nil {
 		return err
 	}
@@ -141,9 +161,45 @@ func (SqlRepository) DeleteProduct(id int) error {
 	return nil
 }
 
+func (SqlRepository) GetTopTenProducts() ([]models.Product, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(config.QueryTimeout))
+	defer cancel()
+	results, err := DbConn.QueryContext(ctx, `SELECT productId,
+	manufacturer,
+	sku,
+	upc,
+	pricePerUnit,
+	quantityOnHand,
+	productName
+	FROM products ORDER BY quantityOnHand DESC LIMIT 10
+	WHERE deleted <> 1`)
+	if err != nil {
+		return nil, err
+	}
+
+	defer results.Close()
+	products := make([]models.Product, 0, len(productMap.m))
+	for results.Next() {
+		var product models.Product
+		results.Scan(
+			&product.ProductID,
+			&product.Manufacturer,
+			&product.Sku,
+			&product.Upc,
+			&product.PricePerUnit,
+			&product.QuantityOnHand,
+			&product.ProductName,
+		)
+
+		products = append(products, product)
+	}
+
+	return products, nil
+}
+
 func init() {
 	var err error
-	config := NewConfigFromFile()
+	config = NewConfigFromFile()
 
 	connString := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v", config.User, config.Pass, config.Host, config.Port, config.DBName)
 	fmt.Printf(" conn string %v \n", connString)
@@ -154,5 +210,5 @@ func init() {
 
 	DbConn.SetMaxOpenConns(config.MaxOpenConnections)
 	DbConn.SetMaxIdleConns(config.MaxIdleConnections)
-	DbConn.SetConnMaxLifetime(time.Duration(config.MaxLifetime))
+	DbConn.SetConnMaxLifetime(time.Second * time.Duration(config.MaxLifetime))
 }

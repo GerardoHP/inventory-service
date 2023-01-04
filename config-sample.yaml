@@ -6,3 +6,4 @@ dbName: inventorydb
 maxOpenConnections: 4
 maxIdleConnections: 4
 maxLifetime: 60
+queryTimeout: 15

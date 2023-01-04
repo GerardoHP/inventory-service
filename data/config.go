@@ -16,6 +16,7 @@ type Config struct {
 	MaxOpenConnections int    `yaml:"maxOpenConnections"`
 	MaxIdleConnections int    `yaml:"maxIdleConnections"`
 	MaxLifetime        int    `yaml:"maxLifetime"`
+	QueryTimeout       int    `yaml:"queryTimeout"`
 }
 
 const fileName string = "config.yaml"
