@@ -86,7 +86,7 @@ func (r JsonRepository) DeleteProduct(id int) error {
 	return nil
 }
 
-func (JsonRepository) GetTopTenProducts() ([]models.Product, error) {
+func (JsonRepository) GetTopProducts(top int) ([]models.Product, error) {
 	return nil, nil
 }
 

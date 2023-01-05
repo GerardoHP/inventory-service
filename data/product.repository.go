@@ -9,5 +9,5 @@ type ProductRepository interface {
 	GetProductById(id int) (*models.Product, error)
 	UpdateProduct(p models.Product) error
 	DeleteProduct(id int) error
-	GetTopTenProducts() ([]models.Product, error)
+	GetTopProducts(top int) ([]models.Product, error)
 }

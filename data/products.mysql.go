@@ -161,7 +161,7 @@ func (SqlRepository) DeleteProduct(id int) error {
 	return nil
 }
 
-func (SqlRepository) GetTopTenProducts() ([]models.Product, error) {
+func (SqlRepository) GetTopProducts(top int) ([]models.Product, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(config.QueryTimeout))
 	defer cancel()
 	results, err := DbConn.QueryContext(ctx, `SELECT productId,
@@ -171,8 +171,9 @@ func (SqlRepository) GetTopTenProducts() ([]models.Product, error) {
 	pricePerUnit,
 	quantityOnHand,
 	productName
-	FROM products ORDER BY quantityOnHand DESC LIMIT 10
-	WHERE deleted <> 1`)
+	FROM products
+	WHERE deleted <> 1
+	ORDER BY quantityOnHand DESC LIMIT ?`, top)
 	if err != nil {
 		return nil, err
 	}

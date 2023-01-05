@@ -111,7 +111,7 @@ func (r FirestoreRepository) DeleteProduct(id int) error {
 	return nil
 }
 
-func (FirestoreRepository) GetTopTenProducts() ([]models.Product, error) {
+func (FirestoreRepository) GetTopProducts(top int) ([]models.Product, error) {
 	return nil, nil
 }
 
