@@ -90,6 +90,10 @@ func (JsonRepository) GetTopProducts(top int) ([]models.Product, error) {
 	return nil, nil
 }
 
+func (JsonRepository) SearchForProductData(models.ProductReportFilter) ([]models.Product, error) {
+	return nil, nil
+}
+
 func init() {
 	fmt.Println("loading products...")
 	prodMap, err := loadProductMap()

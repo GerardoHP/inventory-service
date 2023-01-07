@@ -115,6 +115,10 @@ func (FirestoreRepository) GetTopProducts(top int) ([]models.Product, error) {
 	return nil, nil
 }
 
+func (FirestoreRepository) SearchForProductData(models.ProductReportFilter) ([]models.Product, error) {
+	return nil, nil
+}
+
 func init() {
 	opt := option.WithCredentialsFile(credentialsFile)
 	ctx := context.Background()

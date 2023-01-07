@@ -15,11 +15,11 @@ const (
 )
 
 func SetupRoutes(apiBasePath string) {
+	http.Handle("/websocket", websocket.Handler(handlers.ProductSocket))
 	http.Handle(fmt.Sprintf("%s/%s", apiBasePath, handlers.ProductsBasePath), middleware.CorsHandler(handlers.NewProductsHandler()))
 	http.Handle(fmt.Sprintf("%s/%s/", apiBasePath, handlers.ProductsBasePath), middleware.CorsHandler(handlers.NewProductHandler()))
 	http.Handle(fmt.Sprintf("%s/%s", apiBasePath, handlers.ReceiptPath), middleware.CorsHandler(handlers.NewReceiptsHandler()))
-	http.Handle(fmt.Sprintf("%s/%s/", apiBasePath, handlers.ReceiptPath), middleware.CorsHandler(handlers.NewReceiptHandler()))
-	http.Handle("/websocket", websocket.Handler(handlers.ProductSocket))
+	http.Handle(fmt.Sprintf("%s/%s/reports", apiBasePath, handlers.ProductsBasePath), middleware.CorsHandler(handlers.NewProductReportHandler()))
 }
 
 func main() {

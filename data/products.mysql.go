@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"strings"
 	"time"
 
 	"github.com/GerardoHP/inventory-service/models"
@@ -180,6 +181,68 @@ func (SqlRepository) GetTopProducts(top int) ([]models.Product, error) {
 
 	defer results.Close()
 	products := make([]models.Product, 0, len(productMap.m))
+	for results.Next() {
+		var product models.Product
+		results.Scan(
+			&product.ProductID,
+			&product.Manufacturer,
+			&product.Sku,
+			&product.Upc,
+			&product.PricePerUnit,
+			&product.QuantityOnHand,
+			&product.ProductName,
+		)
+
+		products = append(products, product)
+	}
+
+	return products, nil
+}
+
+func (SqlRepository) SearchForProductData(productFilter models.ProductReportFilter) ([]models.Product, error) {
+	var queryArgs = make([]interface{}, 0)
+	var queryBuilder strings.Builder
+	queryBuilder.WriteString(`SELECT productId,
+	LOWER(manufacturer),
+	LOWER(sku),
+	upc,
+	pricePerUnit,
+	quantityOnHand,
+	LOWER(productName)
+	FROM products WHERE `)
+
+	if productFilter.NameFilter != "" {
+		queryBuilder.WriteString(`productName LIKE ? `)
+		queryArgs = append(queryArgs, "%"+strings.ToLower(productFilter.NameFilter)+"%")
+	}
+
+	if productFilter.ManufacturerFilter != "" {
+		if len(queryArgs) > 0 {
+			queryBuilder.WriteString(" AND ")
+		}
+
+		queryBuilder.WriteString(`manufacturer LIKE ? `)
+		queryArgs = append(queryArgs, "%"+strings.ToLower(productFilter.ManufacturerFilter)+"%")
+	}
+
+	if productFilter.SKUFilter != "" {
+		if len(queryArgs) > 0 {
+			queryBuilder.WriteString(" AND ")
+		}
+
+		queryBuilder.WriteString(`sku LIKE ? `)
+		queryArgs = append(queryArgs, "%"+strings.ToLower(productFilter.SKUFilter)+"%")
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*time.Duration(config.QueryTimeout))
+	defer cancel()
+	results, err := DbConn.QueryContext(ctx, queryBuilder.String(), queryArgs...)
+	if err != nil {
+		return nil, err
+	}
+
+	defer results.Close()
+	products := make([]models.Product, 0)
 	for results.Next() {
 		var product models.Product
 		results.Scan(

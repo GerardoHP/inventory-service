@@ -10,4 +10,5 @@ type ProductRepository interface {
 	UpdateProduct(p models.Product) error
 	DeleteProduct(id int) error
 	GetTopProducts(top int) ([]models.Product, error)
+	SearchForProductData(models.ProductReportFilter) ([]models.Product, error)
 }
